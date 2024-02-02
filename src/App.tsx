@@ -22,7 +22,7 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
-   void fetchCountries();
+    void fetchCountries();
   }, []);
 
   return (
