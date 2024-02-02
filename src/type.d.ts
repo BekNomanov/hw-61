@@ -5,4 +5,14 @@ interface  Country {
   population: number;
   area: number;
   borders: string[];
+  flag: string;
+}
+
+interface CountryListProps {
+  countries: Country[];
+  onCountryClick: (alpha3Code: string) => void;
+}
+
+interface CountryInfoProps {
+  selectedCountry: Country | null;
 }

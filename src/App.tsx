@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState, useEffect} from 'react';
+import CountryList from './CountryList/CountryList';
+import CountryInfo from './CountryInfo/CountryInfo';
+
 
 
 const App: React.FC = () => {
@@ -14,12 +17,13 @@ const App: React.FC = () => {
         const response = await fetch(countriesListUrl);
         const data: Country[] = await response.json();
         setCountries(data);
+        console.log(data)
       } catch (error) {
         console.error('Error fetching countries:', error);
       }
     };
 
-   void fetchCountries();
+    void fetchCountries();
   }, []);
 
   const handleCountryClick = async (alpha3Code: string) => {
@@ -27,6 +31,7 @@ const App: React.FC = () => {
       const response = await fetch(`${countryInfoBaseUrl}${alpha3Code}`);
       const data: Country = await response.json();
       setSelectedCountry(data);
+      console.log(data)
     } catch (error) {
       console.error('Error fetching country info:', error);
     }
@@ -42,30 +47,10 @@ const App: React.FC = () => {
         </nav>
       </div>
       <div className='main' style={{display: "flex"}}>
-        <div className="box" style={{width: '400px',}}>
-          <ul className="list-group">
-            {countries.map((country) => (
-              <li className="list-group-item" key={country.alpha3Code}
-                  onClick={() => handleCountryClick(country.alpha3Code)}>
-                {country.name}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className='boxes ms-3'>
-            <h2>Информация о стране</h2>
-            {selectedCountry && (
-              <div>
-                <h3>{selectedCountry.name }</h3>
-                <p>Столица: {selectedCountry.capital}</p>
-                <p>Население: {selectedCountry.population}</p>
-                <p>Площадь: {selectedCountry.area} км²</p>
-                <p>Граничит с: {selectedCountry.borders.join(', ')}</p>
-              </div>
-            )}
-          </div>
-        </div>
+        <CountryList countries={countries} onCountryClick={handleCountryClick}/>
+        <CountryInfo selectedCountry={selectedCountry}/>
       </div>
+    </div>
   );
 };
 
